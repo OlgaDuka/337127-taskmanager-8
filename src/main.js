@@ -9,12 +9,6 @@ const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags
 
 export const getRandomInt = (max) => Math.floor(Math.random() * max);
 
-// const clearBoardTasks = () => {
-//  while (boardTasks.firstChild) {
-//    boardTasks.firstChild.remove();
-//  }
-// };
-
 const toggleFilter = (event) => {
   sectionFilter.querySelector(`input:checked`).checked = false;
   event.target.checked = true;
@@ -28,7 +22,6 @@ sectionFilter.onclick = (event) => {
   if (event.target.className === `filter__label` && !event.target.previousElementSibling.disabled) {
     let numCard = toggleFilter(event);
     boardTasks.innerHTML = ``;
-    // clearBoardTasks();
     numCard = numCard < Num.MAX_CARDS_IN_FILTER ? numCard : Num.MAX_CARDS_IN_FILTER;
     renderCards(numCard);
   }
