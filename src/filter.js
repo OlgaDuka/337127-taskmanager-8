@@ -3,7 +3,7 @@ import {NumConst, getRandomInt} from './utils/index.js';
 export const sectionFilter = document.querySelector(`.main__filter`);
 
 const getHtmlFilter = (nameFilter) => {
-  const num = getRandomInt(NumConst.MAX_TASCS_IN_FILTER);
+  const num = getRandomInt(NumConst.MAX_CARDS_IN_FILTER);
   return `<input
     type="radio"
     id="filter__${nameFilter}"
