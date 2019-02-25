@@ -1,8 +1,7 @@
-import {getRandomInt} from './main.js';
+import {COLOR_CARDS, getRandomInt} from './utils/index.js';
 
 export const boardTasks = document.querySelector(`.board__tasks`);
 
-const COLOR_CARDS = [`black`, `green`, `yellow`, `pink`, `blue`];
 const getHtmlCard = () => {
   return `<article class="card card--edit card--${COLOR_CARDS[getRandomInt(COLOR_CARDS.length - 1)]}">
             <form class="card__form" method="get">

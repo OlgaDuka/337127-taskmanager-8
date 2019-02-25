@@ -1,10 +1,9 @@
-import {getRandomInt} from './main.js';
+import {NumConst, getRandomInt} from './utils/index.js';
 
 export const sectionFilter = document.querySelector(`.main__filter`);
 
-const MAX_TASCS_IN_FILTER = 20;
 const getHtmlFilter = (nameFilter) => {
-  const num = getRandomInt(MAX_TASCS_IN_FILTER);
+  const num = getRandomInt(NumConst.MAX_TASCS_IN_FILTER);
   return `<input
     type="radio"
     id="filter__${nameFilter}"

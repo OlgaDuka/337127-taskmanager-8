@@ -97,14 +97,13 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boardTasks", function() { return boardTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderCards", function() { return renderCards; });
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.js */ "./src/main.js");
+/* harmony import */ var _utils_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/index.js */ "./src/utils/index.js");
 
 
 const boardTasks = document.querySelector(`.board__tasks`);
 
-const COLOR_CARDS = [`black`, `green`, `yellow`, `pink`, `blue`];
 const getHtmlCard = () => {
-  return `<article class="card card--edit card--${COLOR_CARDS[Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(COLOR_CARDS.length - 1)]}">
+  return `<article class="card card--edit card--${_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["COLOR_CARDS"][Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["COLOR_CARDS"].length - 1)]}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -210,14 +209,13 @@ const renderCards = (num) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sectionFilter", function() { return sectionFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderFilters", function() { return renderFilters; });
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.js */ "./src/main.js");
+/* harmony import */ var _utils_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/index.js */ "./src/utils/index.js");
 
 
 const sectionFilter = document.querySelector(`.main__filter`);
 
-const MAX_TASCS_IN_FILTER = 20;
 const getHtmlFilter = (nameFilter) => {
-  const num = Object(_main_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(MAX_TASCS_IN_FILTER);
+  const num = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].MAX_TASCS_IN_FILTER);
   return `<input
     type="radio"
     id="filter__${nameFilter}"
@@ -244,48 +242,69 @@ const renderFilters = (arrFilters) => {
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-/*! exports provided: getRandomInt */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomInt", function() { return getRandomInt; });
-/* harmony import */ var _card_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card.js */ "./src/card.js");
-/* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filter.js */ "./src/filter.js");
+/* harmony import */ var _utils_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/index.js */ "./src/utils/index.js");
+/* harmony import */ var _card_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./card.js */ "./src/card.js");
+/* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filter.js */ "./src/filter.js");
 
 
 
-const Num = {
-  MAX_CARDS_IN_FILTER: 8,
-  START_CARDS: 7
-};
-const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
-
-const getRandomInt = (max) => Math.floor(Math.random() * max);
-
-const clearBoardTasks = () => {
-  while (_card_js__WEBPACK_IMPORTED_MODULE_0__["boardTasks"].firstChild) {
-    _card_js__WEBPACK_IMPORTED_MODULE_0__["boardTasks"].firstChild.remove();
-  }
-};
 
 const toggleFilter = (event) => {
-  _filter_js__WEBPACK_IMPORTED_MODULE_1__["sectionFilter"].querySelector(`input:checked`).checked = false;
+  _filter_js__WEBPACK_IMPORTED_MODULE_2__["sectionFilter"].querySelector(`input:checked`).checked = false;
   event.target.checked = true;
   return parseInt(event.target.textContent.slice(-2), 10);
 };
 
-Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["renderFilters"])(NAME_FILTERS);
-Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["renderCards"])(Num.START_CARDS);
+Object(_filter_js__WEBPACK_IMPORTED_MODULE_2__["renderFilters"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NAME_FILTERS"]);
+Object(_card_js__WEBPACK_IMPORTED_MODULE_1__["renderCards"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].START_CARDS);
 
-_filter_js__WEBPACK_IMPORTED_MODULE_1__["sectionFilter"].onclick = (event) => {
+_filter_js__WEBPACK_IMPORTED_MODULE_2__["sectionFilter"].onclick = (event) => {
   if (event.target.className === `filter__label` && !event.target.previousElementSibling.disabled) {
     let numCard = toggleFilter(event);
-    clearBoardTasks();
-    numCard = numCard < Num.MAX_CARDS_IN_FILTER ? numCard : Num.MAX_CARDS_IN_FILTER;
-    Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["renderCards"])(numCard);
+    _card_js__WEBPACK_IMPORTED_MODULE_1__["boardTasks"].innerHTML = ``;
+    numCard = numCard < _utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].MAX_CARDS_IN_FILTER ? numCard : _utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].MAX_CARDS_IN_FILTER;
+    Object(_card_js__WEBPACK_IMPORTED_MODULE_1__["renderCards"])(numCard);
   }
 };
+
+
+/***/ }),
+
+/***/ "./src/utils/index.js":
+/*!****************************!*\
+  !*** ./src/utils/index.js ***!
+  \****************************/
+/*! exports provided: Price, NumConst, NAME_FILTERS, COLOR_CARDS, getRandomInt */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Price", function() { return Price; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NumConst", function() { return NumConst; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NAME_FILTERS", function() { return NAME_FILTERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COLOR_CARDS", function() { return COLOR_CARDS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomInt", function() { return getRandomInt; });
+const Price = {
+  MIN_PRICE_EVENT: 20,
+  MAX_PRICE_EVENT: 100,
+  MIN_PRICE_SERVICE: 10,
+  MAX_PRICE_SERVICE: 200
+};
+
+const NumConst = {
+  MAX_CARDS_IN_FILTER: 8,
+  START_CARDS: 7
+};
+
+const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
+const COLOR_CARDS = [`black`, `green`, `yellow`, `pink`, `blue`];
+
+const getRandomInt = (max) => Math.floor(Math.random() * max);
 
 
 /***/ })
