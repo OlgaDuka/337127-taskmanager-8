@@ -1,11 +1,53 @@
+import {COLOR_TASKS} from './utils/index.js';
+
+const REPEATING_DAYS = new Map([
+  [`mo`, false],
+  [`tu`, false],
+  [`we`, false],
+  [`th`, false],
+  [`fr`, false],
+  [`sa`, false],
+  [`su`, false],
+]);
+
+const createRepeatDays = (elem, randomBoolean) => {
+  return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${elem}-1" name="repeat" value="${elem}" ${(randomBoolean === true) ? `checked` : ``}/>
+  <label class="card__repeat-day" for="repeat-${elem}-1">${elem}</label>`;
+};
+
+const createColor = (elem, type) => {
+  return `<input type="radio" id="color-${elem}-1" class="card__color-input card__color-input--${elem} visually-hidden" name="color" value="${elem}" ${(type === elem) ? `checked` : ``}/>
+  <label for="color-${elem}-1" class="card__color card__color--${elem}">${elem}</label>`;
+};
+
 export const getHtmlTask = (obTask) => {
+  const options = {year: `numeric`, month: `long`, day: `numeric`};
+  let htmlRepeat = ``;
+  let htmlColor = ``;
+  let htmlTeg = ``;
+
+  if (obTask.isRepeat) {
+    for (let days of REPEATING_DAYS.keys()) {
+      let randomBoolean = Boolean(Math.round(Math.random()));
+      htmlRepeat += createRepeatDays(days, randomBoolean);
+    }
+  }
+
+  COLOR_TASKS.forEach((elem) => {
+    htmlColor += createColor(elem, obTask.colorType);
+  });
+
+  for (let tag of obTask.tags) {
+    htmlTeg += `<div class="card__hashtag-name">#${tag}</div>`;
+  }
+
   return `<article class="card card--edit card--${obTask.colorType}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
                   <button type="button" class="card__btn card__btn--edit">edit</button>
                   <button type="button" class="card__btn card__btn--archive">archive</button>
-                  <button type="button" class="card__btn card__btn--favorites card__btn--disabled">favorites</button>
+                  <button type="button" class="card__btn card__btn--favorites ${(obTask.isFavorite === true) ? `` : `card__btn--disabled`}">favorites</button>
                 </div>
                 <div class="card__color-bar">
                   <svg width="100%" height="10">
@@ -20,7 +62,7 @@ export const getHtmlTask = (obTask) => {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <button class="card__date-deadline-toggle" type="button">date: ${obTask.dueDate}<span class="card__date-status">no</span></button>
+                      <button class="card__date-deadline-toggle" type="button">date: ${obTask.dueDate.toLocaleString(`en-US`, options)}<span class="card__date-status">&nbsp;${(obTask.dueDate <= Date.now()) ? `yes` : `no`}</span></button>
                       <fieldset class="card__date-deadline" disabled>
                         <label class="card__input-deadline-wrap">
                           <input class="card__date" type="text" placeholder="23 September" name="date"/>
@@ -29,31 +71,16 @@ export const getHtmlTask = (obTask) => {
                           <input class="card__time" type="text" placeholder="11:15 PM" name="time"/>
                         </label>
                       </fieldset>
-                      <button class="card__repeat-toggle" type="button">repeat:<span class="card__repeat-status">no</span></button>
-                      <fieldset class="card__repeat-days">
+                      <button class="card__repeat-toggle" type="button">repeat:<span class="card__repeat-status">${(obTask.isRepeat === true) ? `yes` : `no`}</span></button>
+                      <fieldset class="card__repeat-days" ${(obTask.isRepeat === true) ? `` : `disabled`}>
                         <div class="card__repeat-days-inner">
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-1" name="repeat" value="mo" ${(obTask.repeatingDays[`mo`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-mo-1">mo</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-tu-1" name="repeat" value="tu" ${(obTask.repeatingDays[`tu`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-tu-1">tu</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-we-1" name="repeat" value="we" ${(obTask.repeatingDays[`we`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-we-1">we</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-th-1" name="repeat" value="th" ${(obTask.repeatingDays[`th`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-th-1">th</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-fr-1" name="repeat" value="fr" ${(obTask.repeatingDays[`fr`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-fr-1">fr</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-sa-1" name="repeat" value="sa" ${(obTask.repeatingDays[`sa`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-sa-1">sa</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-su-1" name="repeat" value="su" ${(obTask.repeatingDays[`tu`] === true) ? `checked` : ``}/>
-                          <label class="card__repeat-day" for="repeat-su-1">su</label>
+                          ${htmlRepeat}
                         </div>
                       </fieldset>
                     </div>
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        <div class="card__hashtag-name">#${obTask.tags[0]}</div>
-                        <div class="card__hashtag-name">#${obTask.tags[1]}</div>
-                        <div class="card__hashtag-name">#${obTask.tags[2]}</div>
+                        ${htmlTeg}
                       </div>
                       <label>
                         <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here"/>
@@ -67,16 +94,7 @@ export const getHtmlTask = (obTask) => {
                   <div class="card__colors-inner">
                     <h3 class="card__colors-title">Color</h3>
                     <div class="card__colors-wrap">
-                      <input type="radio" id="color-black-1" class="card__color-input card__color-input--black visually-hidden" name="color" value="black" ${(obTask.colorType === `black`) ? `checked` : ``}/>
-                      <label for="color-black-1" class="card__color card__color--black">black</label>
-                      <input type="radio" id="color-yellow-1" class="card__color-input card__color-input--yellow visually-hidden" name="color" value="yellow" ${(obTask.colorType === `yellow`) ? `checked` : ``}/>
-                      <label for="color-yellow-1" class="card__color card__color--yellow">yellow</label>
-                      <input type="radio" id="color-blue-1" class="card__color-input card__color-input--blue visually-hidden" name="color" value="blue" ${(obTask.colorType === `blue`) ? `checked` : ``}/>
-                      <label for="color-blue-1" class="card__color card__color--blue">blue</label>
-                      <input type="radio" id="color-green-1" class="card__color-input card__color-input--green visually-hidden" name="color" value="green" ${(obTask.colorType === `green`) ? `checked` : ``}/>
-                      <label for="color-green-1" class="card__color card__color--green">green</label>
-                      <input type="radio" id="color-pink-1" class="card__color-input card__color-input--pink visually-hidden" name="color" value="pink" ${(obTask.colorType === `pink`) ? `checked` : ``}/>
-                      <label for="color-pink-1" class="card__color card__color--pink">pink</label>
+                      ${htmlColor}
                     </div>
                   </div>
                 </div>
