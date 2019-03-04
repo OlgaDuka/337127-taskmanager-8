@@ -20,7 +20,7 @@ const setTags = () => {
 };
 
 export const createTask = () => {
-  const task = {
+  return {
     title: TITLE_TASKS[Math.floor(Math.random() * TITLE_TASKS.length)],
     dueDate: new Date(Date.now() + Math.floor(Math.random() * DAY) * TIME),
     picture: `//picsum.photos/100/100?r=${Math.random()}`,
@@ -30,5 +30,4 @@ export const createTask = () => {
     isFavorite: Boolean(Math.round(Math.random())),
     isDone: Boolean(Math.round(Math.random()))
   };
-  return task;
 };

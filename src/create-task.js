@@ -15,31 +15,40 @@ const createRepeatDays = (elem, randomBoolean) => {
   <label class="card__repeat-day" for="repeat-${elem}-1">${elem}</label>`;
 };
 
-const createColor = (elem, type) => {
-  return `<input type="radio" id="color-${elem}-1" class="card__color-input card__color-input--${elem} visually-hidden" name="color" value="${elem}" ${(type === elem) ? `checked` : ``}/>
-  <label for="color-${elem}-1" class="card__color card__color--${elem}">${elem}</label>`;
-};
-
-export const getHtmlTask = (obTask) => {
-  const options = {year: `numeric`, month: `long`, day: `numeric`};
+const getRepeat = (ob) => {
   let htmlRepeat = ``;
-  let htmlColor = ``;
-  let htmlTeg = ``;
-
-  if (obTask.isRepeat) {
+  if (ob.isRepeat) {
     for (let days of REPEATING_DAYS.keys()) {
       let randomBoolean = Boolean(Math.round(Math.random()));
       htmlRepeat += createRepeatDays(days, randomBoolean);
     }
   }
+  return htmlRepeat;
+};
 
+const createColor = (elem, type) => {
+  return `<input type="radio" id="color-${elem}-1" class="card__color-input card__color-input--${elem} visually-hidden" name="color" value="${elem}" ${(type === elem) ? `checked` : ``}/>
+  <label for="color-${elem}-1" class="card__color card__color--${elem}">${elem}</label>`;
+};
+
+const getColor = (ob) => {
+  let htmlColor = ``;
   COLOR_TASKS.forEach((elem) => {
-    htmlColor += createColor(elem, obTask.colorType);
+    htmlColor += createColor(elem, ob.colorType);
   });
+  return htmlColor;
+};
 
-  for (let tag of obTask.tags) {
-    htmlTeg += `<div class="card__hashtag-name">#${tag}</div>`;
+const getTag = (ob) => {
+  let htmlTag = ``;
+  for (let tag of ob.tags) {
+    htmlTag += `<div class="card__hashtag-name">#${tag}</div>`;
   }
+  return htmlTag;
+};
+
+export const getTask = (obTask) => {
+  const options = {year: `numeric`, month: `long`, day: `numeric`};
 
   return `<article class="card card--edit card--${obTask.colorType}">
             <form class="card__form" method="get">
@@ -74,13 +83,13 @@ export const getHtmlTask = (obTask) => {
                       <button class="card__repeat-toggle" type="button">repeat:<span class="card__repeat-status">${(obTask.isRepeat === true) ? `yes` : `no`}</span></button>
                       <fieldset class="card__repeat-days" ${(obTask.isRepeat === true) ? `` : `disabled`}>
                         <div class="card__repeat-days-inner">
-                          ${htmlRepeat}
+                          ${getRepeat(obTask)}
                         </div>
                       </fieldset>
                     </div>
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        ${htmlTeg}
+                        ${getTag(obTask)}
                       </div>
                       <label>
                         <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here"/>
@@ -94,7 +103,7 @@ export const getHtmlTask = (obTask) => {
                   <div class="card__colors-inner">
                     <h3 class="card__colors-title">Color</h3>
                     <div class="card__colors-wrap">
-                      ${htmlColor}
+                      ${getColor(obTask)}
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import {NumConst, NAME_FILTERS} from './utils/index.js';
 import {createTask} from './data.js';
-import {getHtmlTask} from './create-task.js';
-import {getHtmlFilter} from './create-filter.js';
+import {getTask} from './create-task.js';
+import {getFilter} from './create-filter.js';
 
 const sectionFilter = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
@@ -14,7 +14,7 @@ const toggleFilter = (event) => {
 
 const renderFilters = (arrFilters) => {
   arrFilters.forEach(function (element) {
-    sectionFilter.insertAdjacentHTML(`beforeend`, getHtmlFilter(element));
+    sectionFilter.insertAdjacentHTML(`beforeend`, getFilter(element));
   });
 };
 
@@ -22,7 +22,7 @@ const renderTasks = (num) => {
   const arrTasks = [];
   for (let i = 0; i < num; i += 1) {
     arrTasks[i] = createTask();
-    boardTasks.insertAdjacentHTML(`beforeend`, getHtmlTask(arrTasks[i]));
+    boardTasks.insertAdjacentHTML(`beforeend`, getTask(arrTasks[i]));
   }
 };
 
