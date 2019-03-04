@@ -215,7 +215,7 @@ __webpack_require__.r(__webpack_exports__);
 const sectionFilter = document.querySelector(`.main__filter`);
 
 const getHtmlFilter = (nameFilter) => {
-  const num = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].MAX_CARDS_IN_FILTER);
+  const num = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getRandomInt"])(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["NumConst"].MAX_TASCS_IN_FILTER);
   return `<input
     type="radio"
     id="filter__${nameFilter}"
