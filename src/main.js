@@ -1,7 +1,7 @@
 import {NumConst, NAME_FILTERS} from './utils/index.js';
-import {createTask} from './data.js';
-import {getTask} from './create-task.js';
-import {getFilter} from './create-filter.js';
+import {task} from './data.js';
+import {createTask} from './create-task.js';
+import {createFilter} from './create-filter.js';
 
 const sectionFilter = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
@@ -14,26 +14,24 @@ const toggleFilter = (event) => {
 
 const renderFilters = (arrFilters) => {
   arrFilters.forEach(function (element) {
-    sectionFilter.insertAdjacentHTML(`beforeend`, getFilter(element));
+    sectionFilter.insertAdjacentHTML(`beforeend`, createFilter(element));
   });
 };
 
-const renderTasks = (num) => {
-  const arrTasks = [];
-  for (let i = 0; i < num; i += 1) {
-    arrTasks[i] = createTask();
-    boardTasks.insertAdjacentHTML(`beforeend`, getTask(arrTasks[i]));
+const renderTasks = (dist, amount) => {
+  for (let i = 0; i < amount; i += 1) {
+    dist.insertAdjacentHTML(`beforeend`, createTask(task()));
   }
 };
 
 renderFilters(NAME_FILTERS);
-renderTasks(NumConst.START_TASKS);
+renderTasks(boardTasks, NumConst.START_TASKS);
 
 sectionFilter.onclick = (event) => {
   if (event.target.className === `filter__label` && !event.target.previousElementSibling.disabled) {
     let numTasks = toggleFilter(event);
     boardTasks.innerHTML = ``;
     numTasks = numTasks < NumConst.MAX_TASKS_IN_FILTER ? numTasks : NumConst.MAX_TASKS_IN_FILTER;
-    renderTasks(numTasks);
+    renderTasks(boardTasks, numTasks);
   }
 };

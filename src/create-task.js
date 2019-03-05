@@ -19,8 +19,7 @@ const getRepeat = (ob) => {
   let htmlRepeat = ``;
   if (ob.isRepeat) {
     for (let days of REPEATING_DAYS.keys()) {
-      let randomBoolean = Boolean(Math.round(Math.random()));
-      htmlRepeat += createRepeatDays(days, randomBoolean);
+      htmlRepeat += createRepeatDays(days, Boolean(Math.round(Math.random())));
     }
   }
   return htmlRepeat;
@@ -47,9 +46,7 @@ const getTag = (ob) => {
   return htmlTag;
 };
 
-export const getTask = (obTask) => {
-  const options = {year: `numeric`, month: `long`, day: `numeric`};
-
+export const createTask = (obTask) => {
   return `<article class="card card--edit card--${obTask.colorType}">
             <form class="card__form" method="get">
               <div class="card__inner">
@@ -71,7 +68,7 @@ export const getTask = (obTask) => {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <button class="card__date-deadline-toggle" type="button">date: ${obTask.dueDate.toLocaleString(`en-US`, options)}<span class="card__date-status">&nbsp;${(obTask.dueDate <= Date.now()) ? `yes` : `no`}</span></button>
+                      <button class="card__date-deadline-toggle" type="button">date: ${obTask.dueDate.toLocaleString(`en-US`, {year: `numeric`, month: `long`, day: `numeric`})}<span class="card__date-status">&nbsp;${(obTask.dueDate <= Date.now()) ? `yes` : `no`}</span></button>
                       <fieldset class="card__date-deadline" disabled>
                         <label class="card__input-deadline-wrap">
                           <input class="card__date" type="text" placeholder="23 September" name="date"/>

@@ -1,6 +1,6 @@
 import {NumConst, getRandomInt} from './utils/index.js';
 
-export const getFilter = (nameFilter) => {
+export const createFilter = (nameFilter) => {
   const num = getRandomInt(NumConst.MAX_TASKS_IN_FILTER);
   return `<input
     type="radio"

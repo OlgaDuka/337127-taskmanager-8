@@ -19,7 +19,7 @@ const setTags = () => {
   return arrTags;
 };
 
-export const createTask = () => {
+export const task = () => {
   return {
     title: TITLE_TASKS[Math.floor(Math.random() * TITLE_TASKS.length)],
     dueDate: new Date(Date.now() + Math.floor(Math.random() * DAY) * TIME),
