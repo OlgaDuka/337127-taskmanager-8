@@ -14,7 +14,8 @@ const renderTasks = (dist, amount) => {
   for (let i = 0; i < amount; i += 1) {
     let task = new Task();
     dist.insertAdjacentHTML(`beforeend`, task.template);
-    // dist.innerHTML = task.render(); - почему так не работает???
+    // task.render(); - как заставить эту функцию работать?
+    // dist.innerHTML = task.render(); - не понимаю пока.
   }
 };
 
