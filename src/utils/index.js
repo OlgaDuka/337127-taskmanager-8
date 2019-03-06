@@ -1,6 +1,10 @@
+
 export const NumConst = {
   MAX_TASKS_IN_FILTER: 8,
-  START_TASKS: 7
+  START_TASKS: 7,
+  DEF_NUM_TAGS: 3,
+  TIME: 86400000,
+  DAY: 7
 };
 
 export const TITLE_TASKS = [
@@ -23,3 +27,21 @@ export const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`
 export const COLOR_TASKS = [`black`, `green`, `yellow`, `pink`, `blue`];
 
 export const getRandomInt = (max) => Math.floor(Math.random() * max);
+export const getRandomBoolean = () => Boolean(Math.round(Math.random()));
+export const getRandomIndexArr = (arr) => arr[Math.floor(Math.random() * arr.length)];
+export const getRandomDate = () => new Date(Date.now() + Math.floor(Math.random() * NumConst.DAY) * NumConst.TIME);
+
+export const getArrFromSet = (originalSet, amount) => {
+  const arrResult = [];
+  const arrNumber = [];
+  let i = 0;
+  while (i < amount) {
+    let num = getRandomInt(originalSet.size);
+    if (arrNumber.indexOf(num) === -1) {
+      arrResult[i] = [...originalSet][num];
+      arrNumber[i] = num;
+      i += 1;
+    }
+  }
+  return arrResult;
+};
