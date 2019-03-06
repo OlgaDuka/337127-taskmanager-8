@@ -1,7 +1,7 @@
 
 export const NumConst = {
   MAX_TASKS_IN_FILTER: 8,
-  START_TASKS: 7,
+  START_TASKS: 4,
   DEF_NUM_TAGS: 3,
   TIME: 86400000,
   DAY: 7
