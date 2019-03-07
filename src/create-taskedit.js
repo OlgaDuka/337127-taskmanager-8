@@ -46,8 +46,8 @@ const getTag = (ob) => {
   return htmlTag;
 };
 
-export const createTask = (obTask) => {
-  return `<article class="card card--${obTask._colorType}">
+export const createTaskEdit = (obTask) => {
+  return `<article class="card card--edit card--${obTask._colorType}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">

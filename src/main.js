@@ -1,5 +1,7 @@
 import {NumConst, NAME_FILTERS} from './utils/index.js';
+import {createNewTask} from './data.js';
 import {Task} from './task.js';
+import {TaskEdit} from './task-edit.js';
 import {renderFilters, sectionFilter} from './create-filter.js';
 
 const boardTasks = document.querySelector(`.board__tasks`);
@@ -11,11 +13,22 @@ const toggleFilter = (event) => {
 };
 
 const renderTasks = (dist, amount) => {
+  const tasks = new Array(amount);
   for (let i = 0; i < amount; i += 1) {
-    let task = new Task();
-    dist.insertAdjacentHTML(`beforeend`, task.template);
-    // task.render(); - как заставить эту функцию работать?
-    // dist.innerHTML = task.render(); - не понимаю пока.
+    tasks[i] = createNewTask();
+    let oneTask = new Task(tasks[i]);
+    let oneEditTask = new TaskEdit(tasks[i]);
+    dist.appendChild(oneTask.render());
+    oneTask.onEdit = () => {
+      oneEditTask.render();
+      dist.replaceChild(oneEditTask.element, oneTask.element);
+      oneTask.unrender();
+    };
+    oneEditTask.onSubmit = () => {
+      oneTask.render();
+      dist.replaceChild(oneTask.element, oneEditTask.element);
+      oneEditTask.unrender();
+    };
   }
 };
 

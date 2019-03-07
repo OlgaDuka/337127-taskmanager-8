@@ -1,25 +1,63 @@
-import {getRandomBoolean, getRandomIndexArr, getRandomDate, getArrFromSet, NumConst, TITLE_TASKS, COLOR_TASKS, TAGS} from './utils/index.js';
-import {createTask} from './create-task.js';
+import {createTaskEdit} from './create-taskedit.js';
+
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
 
 export class TaskEdit {
-  constructor() {
-    this.title = getRandomIndexArr(TITLE_TASKS);
-    this.dueDate = getRandomDate();
-    this.picture = `//picsum.photos/100/100?r=${Math.random()}`;
-    this.isRepeat = getRandomBoolean();
-    this.tags = getArrFromSet(TAGS, NumConst.DEF_NUM_TAGS);
-    this.colorType = getRandomIndexArr(COLOR_TASKS);
-    this.isFavorite = getRandomBoolean();
-    this.isDone = getRandomBoolean();
-    this._element = document.createElement(`div`);
+  constructor(data) {
+    this._title = data.title;
+    this._dueDate = data.dueDate;
+    this._picture = data.picture;
+    this._isRepeat = data.isRepeat;
+    this._tags = data.tags;
+    this._colorType = data.colorType;
+    this._isFavorite = data.isFavorite;
+    this._isDone = data.isDone;
+
+    this._state = {
+      // сщстояние компонента
+    };
+    this._element = null;
+    this._onSubmit = null;
   }
+
+  get element() {
+    return this._element;
+  }
+
+  _onSubmitButtonClick(evt) {
+    evt.preventDefault();
+    return (typeof this._onSubmit === `function`) && this._onSubmit();
+  }
+
+  set onSubmit(fn) {
+    this._onSubmit = fn;
+  }
+
   get template() {
-    return createTask(this);
+    return createTaskEdit(this);
   }
+
+  bind() {
+    this._element.querySelector(`.card__form`)
+      .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+  }
+
+  unbind() {
+    this._onSubmit = null;
+  }
+
   render() {
-    return this._element.insertAdjacentHTML(`beforeend`, this.template);
+    this._element = createElement(this.template);
+    this.bind();
+    return this._element;
   }
+
   unrender() {
+    this.unbind();
     this._element = null;
   }
 }
