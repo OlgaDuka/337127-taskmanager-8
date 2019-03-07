@@ -13,11 +13,10 @@ const toggleFilter = (event) => {
 };
 
 const renderTasks = (dist, amount) => {
-  const tasks = new Array(amount);
   for (let i = 0; i < amount; i += 1) {
-    tasks[i] = createNewTask();
-    let oneTask = new Task(tasks[i]);
-    let oneEditTask = new TaskEdit(tasks[i]);
+    const taskData = createNewTask();
+    let oneTask = new Task(taskData);
+    let oneEditTask = new TaskEdit(taskData);
     dist.appendChild(oneTask.render());
     oneTask.onEdit = () => {
       oneEditTask.render();

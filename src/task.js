@@ -14,14 +14,14 @@ export class Task {
     this._isRepeat = data.isRepeat;
     this._tags = data.tags;
     this._colorType = data.colorType;
-    this._isFavorite = data.isFavorite;
-    this._isDone = data.isDone;
 
     this._state = {
-      // состояние компонента
+      isEdit: false,
+      _isFavorite: data.isFavorite,
+      _isDone: data.isDone
     };
+
     this._element = null;
-    this._onEdit = null;
   }
 
   _onEditButtonClick() {
@@ -46,7 +46,8 @@ export class Task {
   }
 
   unbind() {
-    this._onEdit = null;
+    this._element.querySelector(`.card__btn--edit`)
+      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
   render() {

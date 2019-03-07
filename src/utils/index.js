@@ -1,4 +1,3 @@
-
 export const NumConst = {
   MAX_TASKS_IN_FILTER: 8,
   START_TASKS: 4,
@@ -30,6 +29,7 @@ export const getRandomInt = (max) => Math.floor(Math.random() * max);
 export const getRandomBoolean = () => Boolean(Math.round(Math.random()));
 export const getRandomIndexArr = (arr) => arr[Math.floor(Math.random() * arr.length)];
 export const getRandomDate = () => new Date(Date.now() + Math.floor(Math.random() * NumConst.DAY) * NumConst.TIME);
+export const getRandomPhoto = () => `//picsum.photos/300/150?r=${Math.random()}`;
 
 export const getArrFromSet = (originalSet, amount) => {
   const arrResult = [];

@@ -17,11 +17,12 @@ export class TaskEdit {
     this._isFavorite = data.isFavorite;
     this._isDone = data.isDone;
 
-    this._state = {
-      // сщстояние компонента
-    };
     this._element = null;
-    this._onSubmit = null;
+    this._state = {
+      isEdit: false,
+      _isFavorite: data.isFavorite,
+      _isDone: data.isDone
+    };
   }
 
   get element() {
@@ -30,7 +31,9 @@ export class TaskEdit {
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
-    return (typeof this._onSubmit === `function`) && this._onSubmit();
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
   }
 
   set onSubmit(fn) {
@@ -47,7 +50,8 @@ export class TaskEdit {
   }
 
   unbind() {
-    this._onSubmit = null;
+    this._element.querySelector(`.card__form`)
+      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
 
   render() {

@@ -1,4 +1,4 @@
-import {COLOR_TASKS} from './utils/index.js';
+import {getRandomBoolean, COLOR_TASKS} from './utils/index.js';
 
 const REPEATING_DAYS = new Map([
   [`mo`, false],
@@ -7,7 +7,7 @@ const REPEATING_DAYS = new Map([
   [`th`, false],
   [`fr`, false],
   [`sa`, false],
-  [`su`, false],
+  [`su`, false]
 ]);
 
 const createRepeatDays = (elem, randomBoolean) => {
@@ -19,7 +19,7 @@ const getRepeat = (ob) => {
   let htmlRepeat = ``;
   if (ob._isRepeat) {
     for (let days of REPEATING_DAYS.keys()) {
-      htmlRepeat += createRepeatDays(days, Boolean(Math.round(Math.random())));
+      htmlRepeat += createRepeatDays(days, getRandomBoolean());
     }
   }
   return htmlRepeat;
@@ -47,7 +47,7 @@ const getTag = (ob) => {
 };
 
 export const createTaskEdit = (obTask) => {
-  return `<article class="card card--edit card--${obTask._colorType}">
+  return `<article class="card card--edit card--${obTask._colorType}  ${obTask._isRepeat ? `card--repeat` : ``}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -77,7 +77,7 @@ export const createTaskEdit = (obTask) => {
                           <input class="card__time" type="text" placeholder="11:15 PM" name="time"/>
                         </label>
                       </fieldset>
-                      <button class="card__repeat-toggle" type="button">repeat:<span class="card__repeat-status">${(obTask.isRepeat === true) ? `yes` : `no`}</span></button>
+                      <button class="card__repeat-toggle" type="button">repeat:<span class="card__repeat-status">${(obTask._isRepeat === true) ? `yes` : `no`}</span></button>
                       <fieldset class="card__repeat-days" ${(obTask._isRepeat === true) ? `` : `disabled`}>
                         <div class="card__repeat-days-inner">
                           ${getRepeat(obTask)}
