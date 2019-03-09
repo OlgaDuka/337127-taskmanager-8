@@ -16,6 +16,10 @@ export class TaskEdit {
     this._onSubmit = null;
     this._onDelete = null;
     this._onKeyEsc = null;
+
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+    this._onDeleteButtonClick = this._onDeleteButtonClick.bind(this);
+    this._onKeydownEsc = this._onKeydownEsc.bind(this);
   }
 
   get element() {
@@ -170,18 +174,18 @@ export class TaskEdit {
 
   bind() {
     this._element.querySelector(`.card__form`)
-      .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+      .addEventListener(`submit`, this._onSubmitButtonClick);
     this._element.querySelector(`.card__delete`)
-        .addEventListener(`click`, this._onDeleteButtonClick.bind(this));
-    document.addEventListener(`keydown`, this._onKeydownEsc.bind(this));
+        .addEventListener(`click`, this._onDeleteButtonClick);
+    document.addEventListener(`keydown`, this._onKeydownEsc);
   }
 
   unbind() {
     this._element.querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+      .removeEventListener(`submit`, this._onSubmitButtonClick);
     this._element.querySelector(`.card__delete`)
-      .removeEventListener(`click`, this._onDeleteButtonClick.bind(this));
-    document.removeEventListener(`keydown`, this._onKeydownEsc.bind(this));
+      .removeEventListener(`click`, this._onDeleteButtonClick);
+    document.removeEventListener(`keydown`, this._onKeydownEsc);
   }
 
   render() {
