@@ -22,6 +22,16 @@ export const TAGS = new Set([
   `practice`
 ]);
 
+export const REPEATING_DAYS = new Map([
+  [`mo`, false],
+  [`tu`, false],
+  [`we`, false],
+  [`th`, false],
+  [`fr`, false],
+  [`sa`, false],
+  [`su`, false]
+]);
+
 export const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 export const COLOR_TASKS = [`black`, `green`, `yellow`, `pink`, `blue`];
 
@@ -29,7 +39,7 @@ export const getRandomInt = (max) => Math.floor(Math.random() * max);
 export const getRandomBoolean = () => Boolean(Math.round(Math.random()));
 export const getRandomIndexArr = (arr) => arr[Math.floor(Math.random() * arr.length)];
 export const getRandomDate = () => new Date(Date.now() + Math.floor(Math.random() * NumConst.DAY) * NumConst.TIME);
-export const getRandomPhoto = () => `//picsum.photos/300/150?r=${Math.random()}`;
+export const getRandomPhoto = () => `//picsum.photos/100/100?r=${Math.random()}`;
 
 export const getArrFromSet = (originalSet, amount) => {
   const arrResult = [];
@@ -44,4 +54,10 @@ export const getArrFromSet = (originalSet, amount) => {
     }
   }
   return arrResult;
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
 };
