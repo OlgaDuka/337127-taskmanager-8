@@ -15,13 +15,13 @@ export class Task {
     this._tags = data.tags;
     this._colorType = data.colorType;
 
+    this._element = null;
+    this._onEdit = null;
+
     this._state = {
-      isEdit: false,
       _isFavorite: data.isFavorite,
       _isDone: data.isDone
     };
-
-    this._element = null;
   }
 
   _onEditButtonClick() {

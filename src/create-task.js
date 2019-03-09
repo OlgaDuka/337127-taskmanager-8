@@ -12,8 +12,8 @@ export const createTask = (obTask) => {
               <div class="card__inner">
                 <div class="card__control">
                   <button type="button" class="card__btn card__btn--edit">edit</button>
-                  <button type="button" class="card__btn card__btn--archive">archive</button>
-                  <button type="button" class="card__btn card__btn--favorites ${(obTask._isFavorite === true) ? `` : `card__btn--disabled`}">favorites</button>
+                  <button type="button" class="card__btn card__btn--archive ${(obTask._state.isDone === true) ? `` : `card__btn--disabled`}">archive</button>
+                  <button type="button" class="card__btn card__btn--favorites ${(obTask._state.isFavorite === true) ? `` : `card__btn--disabled`}">favorites</button>
                 </div>
                 <div class="card__color-bar">
                   <svg width="100%" height="10">

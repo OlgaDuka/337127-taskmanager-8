@@ -14,10 +14,10 @@ export class TaskEdit {
     this._isRepeat = data.isRepeat;
     this._tags = data.tags;
     this._colorType = data.colorType;
-    this._isFavorite = data.isFavorite;
-    this._isDone = data.isDone;
 
     this._element = null;
+    this._onSubmit = null;
+
     this._state = {
       isEdit: false,
       _isFavorite: data.isFavorite,
