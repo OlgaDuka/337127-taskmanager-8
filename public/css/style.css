@@ -172,7 +172,7 @@ body {
 .card {
   position: relative;
   width: 210px;
-  height: 500px;
+  height: 250px;
   margin-bottom: 26px;
 }
 .card:not(:nth-of-type(4n)) {

@@ -1,6 +1,8 @@
 import {NumConst, getRandomInt} from './utils/index.js';
 
-export const getFilter = (nameFilter) => {
+export const sectionFilter = document.querySelector(`.main__filter`);
+
+const createFilter = (nameFilter) => {
   const num = getRandomInt(NumConst.MAX_TASKS_IN_FILTER);
   return `<input
     type="radio"
@@ -13,4 +15,8 @@ export const getFilter = (nameFilter) => {
   <label for="filter__${nameFilter}" class="filter__label">
     ${nameFilter.toUpperCase()} <span class="filter__${nameFilter}-count">${num}</span></label
   >`;
+};
+
+export const renderFilters = (arrFilters) => {
+  return arrFilters.map((element) => sectionFilter.insertAdjacentHTML(`beforeend`, createFilter(element)));
 };
