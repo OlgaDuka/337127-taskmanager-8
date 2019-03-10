@@ -1,7 +1,8 @@
-import {createElement} from './utils/index.js';
+import {Component} from './component.js';
 
-export class Task {
+class Task extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._picture = data.picture;
@@ -11,8 +12,9 @@ export class Task {
     this._isFavorite = data.isFavorite;
     this._isDone = data.isDone;
 
-    this._element = null;
     this._onEdit = null;
+
+    this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
   _onEditButtonClick() {
@@ -25,18 +27,6 @@ export class Task {
       htmlTag += `<div class="card__hashtag-name">#${tag}</div>`;
     }
     return htmlTag;
-  }
-
-  _getDate(time) {
-    return new Date(time).toLocaleString(`en-US`, {year: `numeric`, month: `long`, day: `numeric`});
-  }
-
-  _getTime(time) {
-    return new Date(time).toLocaleString(`en-US`, {hour: `numeric`, minute: `numeric`});
-  }
-
-  get element() {
-    return this._element;
   }
 
   set onEdit(fn) {
@@ -93,15 +83,6 @@ export class Task {
     this._element.querySelector(`.card__btn--edit`)
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
 }
+
+export {Task};
