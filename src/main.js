@@ -1,7 +1,7 @@
 import {NumConst, NAME_FILTERS} from './utils/index.js';
 import {createNewTask} from './data.js';
-import {Task} from './task.js';
-import {TaskEdit} from './task-edit.js';
+import Task from './task.js';
+import TaskEdit from './task-edit.js';
 import {renderFilters, sectionFilter} from './create-filter.js';
 
 const boardTasks = document.querySelector(`.board__tasks`);
@@ -21,30 +21,35 @@ const createData = (amount) => {
 };
 
 const renderTasks = (dist, arr) => {
+  let isOpen = false;
   for (let i = 0; i < arr.length; i += 1) {
     let oneTask = new Task(arr[i]);
     let oneEditTask = new TaskEdit(arr[i]);
     dist.appendChild(oneTask.render());
     oneTask.onEdit = () => {
-      oneEditTask.render();
-      dist.replaceChild(oneEditTask.element, oneTask.element);
-      oneTask.unrender();
+      if (!isOpen) {
+        oneEditTask.render();
+        dist.replaceChild(oneEditTask.element, oneTask.element);
+        oneTask.unrender();
+        isOpen = true;
+      }
     };
     oneEditTask.onSubmit = () => {
       oneTask.render();
       dist.replaceChild(oneTask.element, oneEditTask.element);
       oneEditTask.unrender();
+      isOpen = false;
     };
     oneEditTask.onDelete = () => {
       oneEditTask.unrender();
       arr.splice(i, 1);
-      dist.innerHTML = ``;
-      renderTasks(dist, arr);
+      isOpen = false;
     };
     oneEditTask.onKeyEsc = () => {
       oneTask.render();
       dist.replaceChild(oneTask.element, oneEditTask.element);
       oneEditTask.unrender();
+      isOpen = false;
     };
   }
 };

@@ -1,8 +1,9 @@
-import {createElement} from './utils/index.js';
+import Component from './component.js';
 import {getRandomBoolean, COLOR_TASKS, REPEATING_DAYS} from './utils/index.js';
 
-export class TaskEdit {
+export default class TaskEdit extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._picture = data.picture;
@@ -12,7 +13,6 @@ export class TaskEdit {
     this._isFavorite = data.isFavorite;
     this._isDone = data.isDone;
 
-    this._element = null;
     this._onSubmit = null;
     this._onDelete = null;
     this._onKeyEsc = null;
@@ -20,10 +20,6 @@ export class TaskEdit {
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
     this._onDeleteButtonClick = this._onDeleteButtonClick.bind(this);
     this._onKeydownEsc = this._onKeydownEsc.bind(this);
-  }
-
-  get element() {
-    return this._element;
   }
 
   _onSubmitButtonClick(evt) {
@@ -57,6 +53,21 @@ export class TaskEdit {
     this._onKeyEsc = fn;
   }
 
+  bind() {
+    this._element.querySelector(`.card__form`)
+      .addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`)
+        .addEventListener(`click`, this._onDeleteButtonClick);
+    document.addEventListener(`keydown`, this._onKeydownEsc);
+  }
+
+  unbind() {
+    this._element.querySelector(`.card__form`)
+      .removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`)
+      .removeEventListener(`click`, this._onDeleteButtonClick);
+    document.removeEventListener(`keydown`, this._onKeydownEsc);
+  }
 
   _getTag() {
     let htmlTag = ``;
@@ -94,14 +105,6 @@ export class TaskEdit {
     return htmlRepeat;
   }
 
-  _getDate(time) {
-    return new Date(time).toLocaleString(`en-US`, {year: `numeric`, month: `long`, day: `numeric`});
-  }
-
-  _getTime(time) {
-    return new Date(time).toLocaleString(`en-US`, {hour: `numeric`, minute: `numeric`});
-  }
-
   get template() {
     return `<article class="card card--edit card--${this._colorType}  ${this._isRepeat ? `card--repeat` : ``}">
               <form class="card__form" method="get">
@@ -125,9 +128,9 @@ export class TaskEdit {
                     <div class="card__details">
                       <div class="card__dates">
                         <button class="card__date-deadline-toggle" type="button">
-                          date: ${this._getDate(this._dueDate)}<span class="card__date-status">&nbsp;${(this._dueDate <= Date.now()) ? `yes` : `no`}</span>
+                          date: ${this.getDate(this._dueDate)}<span class="card__date-status">&nbsp;${(this._dueDate <= Date.now()) ? `yes` : `no`}</span>
                         </button>
-                        <div class="card__dates">${this._getTime(this._dueDate)}</div>
+                        <div class="card__dates">${this.getTime(this._dueDate)}</div>
                         <fieldset class="card__date-deadline" disabled>
                           <label class="card__input-deadline-wrap">
                             <input class="card__date" type="text" placeholder="23 September" name="date"/>
@@ -169,34 +172,6 @@ export class TaskEdit {
                   </div>
                 </div>
               </form>
-            </article>`.trim();
-  }
-
-  bind() {
-    this._element.querySelector(`.card__form`)
-      .addEventListener(`submit`, this._onSubmitButtonClick);
-    this._element.querySelector(`.card__delete`)
-        .addEventListener(`click`, this._onDeleteButtonClick);
-    document.addEventListener(`keydown`, this._onKeydownEsc);
-  }
-
-  unbind() {
-    this._element.querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick);
-    this._element.querySelector(`.card__delete`)
-      .removeEventListener(`click`, this._onDeleteButtonClick);
-    document.removeEventListener(`keydown`, this._onKeydownEsc);
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
+            </article>`;
   }
 }
