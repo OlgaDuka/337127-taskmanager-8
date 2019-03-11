@@ -21,31 +21,35 @@ const createData = (amount) => {
 };
 
 const renderTasks = (dist, arr) => {
+  let isOpen = false;
   for (let i = 0; i < arr.length; i += 1) {
     let oneTask = new Task(arr[i]);
     let oneEditTask = new TaskEdit(arr[i]);
     dist.appendChild(oneTask.render());
     oneTask.onEdit = () => {
-      let taskOpen = dist.querySelector(`.card--edit`);
-      if (!taskOpen) {
+      if (!isOpen) {
         oneEditTask.render();
         dist.replaceChild(oneEditTask.element, oneTask.element);
         oneTask.unrender();
+        isOpen = true;
       }
     };
     oneEditTask.onSubmit = () => {
       oneTask.render();
       dist.replaceChild(oneTask.element, oneEditTask.element);
       oneEditTask.unrender();
+      isOpen = false;
     };
     oneEditTask.onDelete = () => {
       oneEditTask.unrender();
       arr.splice(i, 1);
+      isOpen = false;
     };
     oneEditTask.onKeyEsc = () => {
       oneTask.render();
       dist.replaceChild(oneTask.element, oneEditTask.element);
       oneEditTask.unrender();
+      isOpen = false;
     };
   }
 };
