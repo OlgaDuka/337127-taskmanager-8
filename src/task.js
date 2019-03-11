@@ -21,16 +21,26 @@ export default class Task extends Component {
     return (typeof this._onEdit === `function`) && this._onEdit();
   }
 
+  set onEdit(fn) {
+    this._onEdit = fn;
+  }
+
+  bind() {
+    this._element.querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, this._onEditButtonClick.bind(this));
+  }
+
+  unbind() {
+    this._element.querySelector(`.card__btn--edit`)
+      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
+  }
+
   _getTag() {
     let htmlTag = ``;
     for (let tag of this._tags) {
       htmlTag += `<div class="card__hashtag-name">#${tag}</div>`;
     }
     return htmlTag;
-  }
-
-  set onEdit(fn) {
-    this._onEdit = fn;
   }
 
   get template() {
@@ -54,8 +64,8 @@ export default class Task extends Component {
                   </div>
                   <div class="card__settings">
                     <div>
-                      <div class="card__dates">${this._getDate(this._dueDate)}</div>
-                      <div class="card__dates">${this._getTime(this._dueDate)}</div>
+                      <div class="card__dates">${this.getDate(this._dueDate)}</div>
+                      <div class="card__dates">${this.getTime(this._dueDate)}</div>
                       <div class="card__details">
                         <div class="card__hashtag">
                           <div class="card__hashtag-list">
@@ -71,16 +81,6 @@ export default class Task extends Component {
                   </div>
                 </div>
               </form>
-            </article>`.trim();
-  }
-
-  bind() {
-    this._element.querySelector(`.card__btn--edit`)
-      .addEventListener(`click`, this._onEditButtonClick.bind(this));
-  }
-
-  unbind() {
-    this._element.querySelector(`.card__btn--edit`)
-      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
+            </article>`;
   }
 }

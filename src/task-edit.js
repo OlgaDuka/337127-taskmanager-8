@@ -53,6 +53,21 @@ export default class TaskEdit extends Component {
     this._onKeyEsc = fn;
   }
 
+  bind() {
+    this._element.querySelector(`.card__form`)
+      .addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`)
+        .addEventListener(`click`, this._onDeleteButtonClick);
+    document.addEventListener(`keydown`, this._onKeydownEsc);
+  }
+
+  unbind() {
+    this._element.querySelector(`.card__form`)
+      .removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`)
+      .removeEventListener(`click`, this._onDeleteButtonClick);
+    document.removeEventListener(`keydown`, this._onKeydownEsc);
+  }
 
   _getTag() {
     let htmlTag = ``;
@@ -113,9 +128,9 @@ export default class TaskEdit extends Component {
                     <div class="card__details">
                       <div class="card__dates">
                         <button class="card__date-deadline-toggle" type="button">
-                          date: ${this._getDate(this._dueDate)}<span class="card__date-status">&nbsp;${(this._dueDate <= Date.now()) ? `yes` : `no`}</span>
+                          date: ${this.getDate(this._dueDate)}<span class="card__date-status">&nbsp;${(this._dueDate <= Date.now()) ? `yes` : `no`}</span>
                         </button>
-                        <div class="card__dates">${this._getTime(this._dueDate)}</div>
+                        <div class="card__dates">${this.getTime(this._dueDate)}</div>
                         <fieldset class="card__date-deadline" disabled>
                           <label class="card__input-deadline-wrap">
                             <input class="card__date" type="text" placeholder="23 September" name="date"/>
@@ -157,22 +172,6 @@ export default class TaskEdit extends Component {
                   </div>
                 </div>
               </form>
-            </article>`.trim();
-  }
-
-  bind() {
-    this._element.querySelector(`.card__form`)
-      .addEventListener(`submit`, this._onSubmitButtonClick);
-    this._element.querySelector(`.card__delete`)
-        .addEventListener(`click`, this._onDeleteButtonClick);
-    document.addEventListener(`keydown`, this._onKeydownEsc);
-  }
-
-  unbind() {
-    this._element.querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick);
-    this._element.querySelector(`.card__delete`)
-      .removeEventListener(`click`, this._onDeleteButtonClick);
-    document.removeEventListener(`keydown`, this._onKeydownEsc);
+            </article>`;
   }
 }

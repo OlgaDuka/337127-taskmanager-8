@@ -12,11 +12,11 @@ export default class Component {
     return this._element;
   }
 
-  _getDate(time) {
+  getDate(time) {
     return new Date(time).toLocaleString(`en-US`, {year: `numeric`, month: `long`, day: `numeric`});
   }
 
-  _getTime(time) {
+  getTime(time) {
     return new Date(time).toLocaleString(`en-US`, {hour: `numeric`, minute: `numeric`});
   }
 
