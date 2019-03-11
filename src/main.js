@@ -26,9 +26,12 @@ const renderTasks = (dist, arr) => {
     let oneEditTask = new TaskEdit(arr[i]);
     dist.appendChild(oneTask.render());
     oneTask.onEdit = () => {
-      oneEditTask.render();
-      dist.replaceChild(oneEditTask.element, oneTask.element);
-      oneTask.unrender();
+      let taskOpen = dist.querySelector(`.card--edit`);
+      if (!taskOpen) {
+        oneEditTask.render();
+        dist.replaceChild(oneEditTask.element, oneTask.element);
+        oneTask.unrender();
+      }
     };
     oneEditTask.onSubmit = () => {
       oneTask.render();
@@ -38,8 +41,6 @@ const renderTasks = (dist, arr) => {
     oneEditTask.onDelete = () => {
       oneEditTask.unrender();
       arr.splice(i, 1);
-      dist.innerHTML = ``;
-      renderTasks(dist, arr);
     };
     oneEditTask.onKeyEsc = () => {
       oneTask.render();
