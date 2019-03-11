@@ -1,6 +1,6 @@
-import {Component} from './component.js';
+import Component from './component.js';
 
-class Task extends Component {
+export default class Task extends Component {
   constructor(data) {
     super();
     this._title = data.title;
@@ -84,5 +84,3 @@ class Task extends Component {
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 }
-
-export {Task};

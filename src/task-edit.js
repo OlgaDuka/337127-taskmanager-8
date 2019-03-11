@@ -1,7 +1,7 @@
-import {Component} from './component.js';
+import Component from './component.js';
 import {getRandomBoolean, COLOR_TASKS, REPEATING_DAYS} from './utils/index.js';
 
-class TaskEdit extends Component {
+export default class TaskEdit extends Component {
   constructor(data) {
     super();
     this._title = data.title;
@@ -176,5 +176,3 @@ class TaskEdit extends Component {
     document.removeEventListener(`keydown`, this._onKeydownEsc);
   }
 }
-
-export {TaskEdit};

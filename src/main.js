@@ -1,7 +1,7 @@
 import {NumConst, NAME_FILTERS} from './utils/index.js';
 import {createNewTask} from './data.js';
-import {Task} from './task.js';
-import {TaskEdit} from './task-edit.js';
+import Task from './task.js';
+import TaskEdit from './task-edit.js';
 import {renderFilters, sectionFilter} from './create-filter.js';
 
 const boardTasks = document.querySelector(`.board__tasks`);
