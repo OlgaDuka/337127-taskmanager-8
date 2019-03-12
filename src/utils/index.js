@@ -22,15 +22,13 @@ export const TAGS = new Set([
   `practice`
 ]);
 
-export const REPEATING_DAYS = new Map([
-  [`mo`, false],
-  [`tu`, false],
-  [`we`, false],
-  [`th`, false],
-  [`fr`, false],
-  [`sa`, false],
-  [`su`, false]
-]);
+export const Color = {
+  blue: `card--blue`,
+  black: `card--black`,
+  yellow: `card--yellow`,
+  green: `card--green`,
+  pink: `card--pink`,
+};
 
 export const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 export const COLOR_TASKS = [`black`, `green`, `yellow`, `pink`, `blue`];
@@ -54,6 +52,27 @@ export const getArrFromSet = (originalSet, amount) => {
     }
   }
   return arrResult;
+};
+
+const RepeatingDays = {
+  'mo': false,
+  'tu': false,
+  'we': false,
+  'th': false,
+  'fr': false,
+  'sa': false,
+  'su': false,
+};
+
+export const getRandomDays = () => {
+  const obDays = {};
+  const arrayDays = Object.keys(RepeatingDays);
+  arrayDays.forEach((item) => {
+    Object.defineProperty(obDays, item, {
+      value: getRandomBoolean()
+    });
+  });
+  return obDays;
 };
 
 export const createElement = (template) => {

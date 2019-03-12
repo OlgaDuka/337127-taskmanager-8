@@ -7,7 +7,7 @@ export default class TaskEdit extends Component {
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._picture = data.picture;
-    this._isRepeat = data.isRepeat;
+    this._repeatingDays = data.repeatingDays;
     this._tags = data.tags;
     this._colorType = data.colorType;
     this._isFavorite = data.isFavorite;
@@ -20,6 +20,12 @@ export default class TaskEdit extends Component {
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
     this._onDeleteButtonClick = this._onDeleteButtonClick.bind(this);
     this._onKeydownEsc = this._onKeydownEsc.bind(this);
+  }
+
+  _isRepeated() {
+    const arr = Object.values(this._repeatingDays);
+    const flag = arr.some((elem) => elem === true);
+    return flag;
   }
 
   _onSubmitButtonClick(evt) {
@@ -90,23 +96,24 @@ export default class TaskEdit extends Component {
     return htmlColor;
   }
 
-  _createRepeatDays(elem, randomBoolean) {
-    return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${elem}-1" name="repeat" value="${elem}" ${(randomBoolean === true) ? `checked` : ``}/>
-    <label class="card__repeat-day" for="repeat-${elem}-1">${elem}</label>`;
+  _createRepeatDays(elem) {
+    return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${elem[0]}-1" name="repeat" value="${elem[0]}" ${(elem[1] === true) ? `checked` : ``}/>
+    <label class="card__repeat-day" for="repeat-${elem[0]}-1">${elem[0]}</label>`;
   }
 
   _getRepeat() {
     let htmlRepeat = ``;
-    if (this._isRepeat) {
-      for (let days of REPEATING_DAYS.keys()) {
-        htmlRepeat += this._createRepeatDays(days, getRandomBoolean());
-      }
+    if (this._isRepeated()) {
+      const arrayDays = Object.entries(this._repeatingDays);
+      arrayDays.forEach((elem) => {
+        htmlRepeat += this._createRepeatDays(elem);
+      });
     }
     return htmlRepeat;
   }
 
   get template() {
-    return `<article class="card card--edit card--${this._colorType}  ${this._isRepeat ? `card--repeat` : ``}">
+    return `<article class="card card--edit card--${this._colorType}  ${this._isRepeated() ? `card--repeat` : ``}">
               <form class="card__form" method="get">
                 <div class="card__inner">
                   <div class="card__control">

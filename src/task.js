@@ -1,4 +1,5 @@
 import Component from './component.js';
+import {Color} from './utils/index.js';
 
 export default class Task extends Component {
   constructor(data) {
@@ -6,7 +7,7 @@ export default class Task extends Component {
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._picture = data.picture;
-    this._isRepeat = data.isRepeat;
+    this._repeatingDays = data.repeatingDays;
     this._tags = data.tags;
     this._colorType = data.colorType;
     this._isFavorite = data.isFavorite;
@@ -15,6 +16,10 @@ export default class Task extends Component {
     this._onEdit = null;
 
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
+  }
+
+  _isRepeated() {
+    return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
   _onEditButtonClick() {
@@ -35,6 +40,13 @@ export default class Task extends Component {
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
+  }
+
   _getTag() {
     let htmlTag = ``;
     for (let tag of this._tags) {
@@ -44,7 +56,7 @@ export default class Task extends Component {
   }
 
   get template() {
-    return `<article class="card card--${this._colorType} ${this._isRepeat ? `card--repeat` : ``}">
+    return `<article class="card ${Color[this._colorType]} ${this._isRepeated() ? `card--repeat` : ``}">
               <form class="card__form" method="get">
                 <div class="card__inner">
                   <div class="card__control">
