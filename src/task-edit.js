@@ -46,8 +46,8 @@ export default class TaskEdit extends Component {
   }
 
   _onDeleteHashTag(evt) {
-    evt.currentTarget.parentElement.parentElement.removeChild(evt.currentTarget.parentElement);
-    //  this._tags.delete();
+    const nameTag = evt.currentTarget.previousElementSibling.textContent.slice(1);
+    this._tags.splice(this._tags.indexOf(nameTag), 1);
     this.unbind();
     this._partialUpdate();
     this.bind();
@@ -226,9 +226,7 @@ export default class TaskEdit extends Component {
     return [...this._tags].map((elem) => {
       return `<span class="card__hashtag-inner">
                 <input type="hidden" name="hashtag" value="${elem}" class="card__hashtag-hidden-input">
-                <button type="button" class="card__hashtag-name">
-                  #${elem}
-                </button>
+                <button type="button" class="card__hashtag-name">#${elem}</button>
                 <button type="button" class="card__hashtag-delete">
                   delete
                 </button>
