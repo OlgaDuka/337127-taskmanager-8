@@ -86,7 +86,7 @@ export default class TaskEdit extends Component {
     const entry = {
       title: ``,
       colorType: ``,
-      tags: new Set(),
+      tags: [],
       dueDate: new Date(),
       repeatingDays: {
         'mo': false,
@@ -209,11 +209,11 @@ export default class TaskEdit extends Component {
         target.repeatingDays[value] = true;
       },
       hashtag: (value) => {
-        target.tags.add(value);
+        target.tags.push(value);
       },
       hashtaginput: (value) => {
         if (value !== ``) {
-          target.tags.add(value);
+          target.tags.push(value);
         }
       },
       color: (value) => {
