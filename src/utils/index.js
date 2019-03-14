@@ -22,14 +22,6 @@ export const TAGS = new Set([
   `practice`
 ]);
 
-export const Color = {
-  blue: `card--blue`,
-  black: `card--black`,
-  yellow: `card--yellow`,
-  green: `card--green`,
-  pink: `card--pink`,
-};
-
 export const NAME_FILTERS = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 export const COLOR_TASKS = [`black`, `green`, `yellow`, `pink`, `blue`];
 

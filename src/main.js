@@ -34,7 +34,16 @@ const renderTasks = (dist, arr) => {
         isOpen = true;
       }
     };
-    oneEditTask.onSubmit = () => {
+    oneEditTask.onSubmit = (newObject) => {
+      const task = arr[i];
+      task.title = newObject.title;
+      task.tags = newObject.tags;
+      task.colorType = newObject.colorType;
+      task.repeatingDays = newObject.repeatingDays;
+      task.dueDate = newObject.dueDate;
+
+      oneTask.update(task);
+
       oneTask.render();
       dist.replaceChild(oneTask.element, oneEditTask.element);
       oneEditTask.unrender();
@@ -52,6 +61,7 @@ const renderTasks = (dist, arr) => {
       isOpen = false;
     };
   }
+  return dist;
 };
 
 renderFilters(NAME_FILTERS);
