@@ -23,8 +23,8 @@ export default class TaskEdit extends Component {
       colorType: data.colorType,
       isFavorite: data.isFavorite,
       isDone: data.isDone,
-      isRepeated: this._isRepeated(),
-      isDate: false
+      isDate: false,
+      isRepeated: false
     };
 
     this._onSubmit = null;
@@ -36,17 +36,22 @@ export default class TaskEdit extends Component {
     this._onDeleteHashTag = this._onDeleteHashTag.bind(this);
     this._onKeydownEsc = this._onKeydownEsc.bind(this);
     this._onChangeDate = this._onChangeDate.bind(this);
+    this._onChangeColor = this._onChangeColor.bind(this);
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
   }
 
   _onChangeDate() {
     this._state.isDate = !this._state.isDate;
+    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
-  _onChangeColor() {
-    this._colorType = !this._colorType;
+  _onChangeColor(evt) {
+    const classColor = evt.target.classList[1].split(`--`);
+    this._state.colorType = classColor[1];
+    this._colorType = classColor[1];
+    this.unbind();
     this._partialUpdate();
     this.bind();
   }
@@ -54,32 +59,28 @@ export default class TaskEdit extends Component {
   _onDeleteHashTag(evt) {
     const nameTag = evt.currentTarget.previousElementSibling.textContent.slice(1);
     this._tags.splice(this._tags.indexOf(nameTag), 1);
+    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
   _onChangeRepeated() {
     this._state.isRepeated = !this._state.isRepeated;
+    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
-  _partialUpdate() {
-    this.unbind();
-    const oldElement = this._element;
-    this.render();
-    oldElement.parentNode.replaceChild(this._element, oldElement);
+  _isRepeated() {
+    return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
-  _isRepeated() {
-    console.log(this._repeatingDays);
-    console.log(Object.values(this._repeatingDays));
-    return Object.values(this._repeatingDays).some((it) => it === true);
+  _partialUpdate() {
+    this._element.innerHTML = this.template;
   }
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
-
     if (typeof this._onSubmit === `function`) {
       this._onSubmit(this._state);
     }
@@ -125,6 +126,11 @@ export default class TaskEdit extends Component {
       element.addEventListener(`click`, this._onDeleteHashTag);
     });
 
+    const colors = this._element.querySelectorAll(`.card__color-input`);
+    [].forEach.call(colors, (element) => {
+      element.addEventListener(`click`, this._onChangeColor);
+    });
+
     if (this._state.isDate) {
       flatpickr(`.card__date`, {altInput: true, altFormat: `j F`, dateFormat: `j F`});
       flatpickr(`.card__time`, {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
@@ -146,6 +152,11 @@ export default class TaskEdit extends Component {
     const hashtags = this._element.querySelectorAll(`.card__hashtag-delete`);
     [].forEach.call(hashtags, (element) => {
       element.removeEventListener(`click`, this._onDeleteHashTag);
+    });
+
+    const colors = this._element.querySelectorAll(`.card__color-input`);
+    [].forEach.call(colors, (element) => {
+      element.removeEventListener(`click`, this._onChangeColor);
     });
 
     document.removeEventListener(`keydown`, this._onKeydownEsc);

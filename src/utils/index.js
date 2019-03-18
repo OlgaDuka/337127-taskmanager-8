@@ -60,9 +60,7 @@ export const getRandomDays = () => {
   const obDays = {};
   const arrayDays = Object.keys(RepeatingDays);
   arrayDays.forEach((item) => {
-    Object.defineProperty(obDays, item, {
-      value: getRandomBoolean()
-    });
+    obDays[item] = getRandomBoolean();
   });
   return obDays;
 };

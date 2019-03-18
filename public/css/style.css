@@ -275,9 +275,9 @@ body {
 .card--deadline .card__color-bar-wave {
   stroke: #f11a1a;
 }
-.card--repeat .card__color-bar {
-  background-color: transparent;
-}
+//.card--repeat .card__color-bar {
+//  background-color: transparent;
+//}
 .card__textarea-wrap {
   position: relative;
 }
