@@ -15,8 +15,16 @@ export default class TaskEdit extends Component {
     this._isDone = data.isDone;
 
     this._state = {
-      isDate: false,
-      isRepeated: this._isRepeated()
+      title: data.title,
+      dueDate: data.dueDate,
+      picture: data.picture,
+      repeatingDays: data.repeatingDays,
+      tags: data.tags,
+      colorType: data.colorType,
+      isFavorite: data.isFavorite,
+      isDone: data.isDone,
+      isRepeated: this._isRepeated(),
+      isDate: false
     };
 
     this._onSubmit = null;
@@ -33,14 +41,12 @@ export default class TaskEdit extends Component {
 
   _onChangeDate() {
     this._state.isDate = !this._state.isDate;
-    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
   _onChangeColor() {
     this._colorType = !this._colorType;
-    this.unbind();
     this._partialUpdate();
     this.bind();
   }
@@ -48,77 +54,36 @@ export default class TaskEdit extends Component {
   _onDeleteHashTag(evt) {
     const nameTag = evt.currentTarget.previousElementSibling.textContent.slice(1);
     this._tags.splice(this._tags.indexOf(nameTag), 1);
-    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
   _onChangeRepeated() {
     this._state.isRepeated = !this._state.isRepeated;
-    this.unbind();
     this._partialUpdate();
     this.bind();
   }
 
   _partialUpdate() {
-    this._element.innerHTML = this.template;
+    this.unbind();
+    const oldElement = this._element;
+    this.render();
+    oldElement.parentNode.replaceChild(this._element, oldElement);
   }
 
   _isRepeated() {
-    const arr = [];
-    arr[0] = this._repeatingDays[`mo`];
-    arr[1] = this._repeatingDays[`tu`];
-    arr[2] = this._repeatingDays[`we`];
-    arr[3] = this._repeatingDays[`th`];
-    arr[4] = this._repeatingDays[`fr`];
-    arr[5] = this._repeatingDays[`sa`];
-    arr[6] = this._repeatingDays[`su`];
-    //  for (let prop in this._repeatingDays) {
-    //    if (this._repeatingDays.hasOwnProperty(prop)) {
-    //      arr.push(this._repeatingDays[prop]);
-    //    }
-    //  }
-    const flag = arr.some((elem) => elem === true);
-    return flag;
-  }
-
-  _processForm(formData) {
-    const entry = {
-      title: ``,
-      colorType: ``,
-      tags: [],
-      dueDate: new Date(),
-      repeatingDays: {
-        'mo': false,
-        'tu': false,
-        'we': false,
-        'th': false,
-        'fr': false,
-        'sa': false,
-        'su': false
-      }
-    };
-
-    const taskEditMapper = TaskEdit.createMapper(entry);
-
-    for (const pair of formData.entries()) {
-      const [property, value] = pair;
-      if (taskEditMapper[property]) {
-        taskEditMapper[property](value);
-      }
-    }
-    return entry;
+    console.log(this._repeatingDays);
+    console.log(Object.values(this._repeatingDays));
+    return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
 
-    const formData = new FormData(this._element.querySelector(`.card__form`));
-    const newData = this._processForm(formData);
     if (typeof this._onSubmit === `function`) {
-      this._onSubmit(newData);
+      this._onSubmit(this._state);
     }
-    this.update(newData);
+    this.update(this._state);
   }
 
   set onSubmit(fn) {
@@ -192,34 +157,6 @@ export default class TaskEdit extends Component {
     this._colorType = data.colorType;
     this._repeatingDays = data.repeatingDays;
     this._dueDate = data.dueDate;
-  }
-
-  static createMapper(target) {
-    return {
-      text: (value) => {
-        target.title = value;
-      },
-      date: (value) => {
-        target.dueDate = value;
-      },
-      time: (value) => {
-        target.dueDate = value;
-      },
-      repeat: (value) => {
-        target.repeatingDays[value] = true;
-      },
-      hashtag: (value) => {
-        target.tags.push(value);
-      },
-      hashtaginput: (value) => {
-        if (value !== ``) {
-          target.tags.push(value);
-        }
-      },
-      color: (value) => {
-        target.colorType = value;
-      },
-    };
   }
 
   _getTag() {
