@@ -6,7 +6,7 @@ export default class Task extends Component {
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._picture = data.picture;
-    this._isRepeat = data.isRepeat;
+    this._repeatingDays = data.repeatingDays;
     this._tags = data.tags;
     this._colorType = data.colorType;
     this._isFavorite = data.isFavorite;
@@ -15,6 +15,10 @@ export default class Task extends Component {
     this._onEdit = null;
 
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
+  }
+
+  _isRepeated() {
+    return Object.values(this._repeatingDays).some((elem) => elem === true);
   }
 
   _onEditButtonClick() {
@@ -35,16 +39,30 @@ export default class Task extends Component {
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._colorType = data.colorType;
+    this._dueDate = data.dueDate;
+    this._repeatingDays = data.repeatingDays;
+  }
+
   _getTag() {
-    let htmlTag = ``;
-    for (let tag of this._tags) {
-      htmlTag += `<div class="card__hashtag-name">#${tag}</div>`;
-    }
-    return htmlTag;
+    return [...this._tags].map((elem) => {
+      return `<span class="card__hashtag-inner">
+                <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+                <button type="button" class="card__hashtag-name">
+                  #${elem}
+                </button>
+                <button type="button" class="card__hashtag-delete">
+                  delete
+                </button>
+              </span>`.trim();
+    }).join(``);
   }
 
   get template() {
-    return `<article class="card card--${this._colorType} ${this._isRepeat ? `card--repeat` : ``}">
+    return `<article class="card card--${this._colorType} ${this._isRepeated() ? `card--repeat` : ``}">
               <form class="card__form" method="get">
                 <div class="card__inner">
                   <div class="card__control">
