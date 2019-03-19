@@ -24,7 +24,7 @@ export default class TaskEdit extends Component {
       isFavorite: data.isFavorite,
       isDone: data.isDone,
       isDate: false,
-      isRepeated: false
+      isRepeat: this._isRepeated()
     };
 
     this._onSubmit = null;
@@ -65,7 +65,7 @@ export default class TaskEdit extends Component {
   }
 
   _onChangeRepeated() {
-    this._state.isRepeated = !this._state.isRepeated;
+    this._state.isRepeat = !this._state.isRepeat;
     this.unbind();
     this._partialUpdate();
     this.bind();
@@ -205,7 +205,7 @@ export default class TaskEdit extends Component {
   }
 
   get template() {
-    return `<article class="card card--edit card--${this._colorType}  ${this._isRepeated() ? `card--repeat` : ``}">
+    return `<article class="card card--edit card--${this._colorType}  ${this._isRepeat ? `card--repeat` : ``}">
               <form class="card__form" method="get">
                 <div class="card__inner">
                   <div class="card__control">
@@ -243,9 +243,9 @@ export default class TaskEdit extends Component {
                         </fieldset>
 
                         <button class="card__repeat-toggle" type="button">
-                          repeat:<span class="card__repeat-status">${(this._isRepeated() === true) ? `yes` : `no`}</span>
+                          repeat:<span class="card__repeat-status">${(this._isRepeat === true) ? `yes` : `no`}</span>
                         </button>
-                        <fieldset class="card__repeat-days" ${(this._isRepeated() === true) ? `` : `disabled`}>
+                        <fieldset class="card__repeat-days" ${(this._isRepeat === true) ? `` : `disabled`}>
                           <div class="card__repeat-days-inner">
                             ${this._getRepeatDays()}
                           </div>
